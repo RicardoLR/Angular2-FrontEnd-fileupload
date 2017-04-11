@@ -1,0 +1,60 @@
+
+<h1>{{titulo}}</h1>
+
+
+<!-- ====================================================== 
+	Metodo onSubmit puesto en el controlador, asi como callPrecio mas abajo
+====================================================== -->
+ <form #formRestaurante="ngForm" (ngSubmit)="onSubmit()">
+
+	<!-- ======================================================
+		id en angular 2  #mi_id_precio
+	====================================================== -->
+	<label>Nombre:</label>
+	<p>
+		<input type="text" #title="ngForm" ngControl="title" [(ngModel)]="restaurante.title" required/>
+		<span *ngIf="!title.valid">El title es obligatorio</span>
+	</p>
+
+	<label>Descripcion:</label>
+	<p>
+		<input type="text" #description="ngForm" ngControl="description" [(ngModel)]="restaurante.description" required/>
+		<span *ngIf="!description.valid">La description es obligatoria</span>
+	</p>
+
+	<label>url:</label>
+	<p>
+		<textarea #url="ngForm" ngControl="url" [(ngModel)]="restaurante.url" required></textarea>
+		<span *ngIf="!url.valid">La url es obligatoria</span>
+	</p>
+	<!-- =================================================================== 
+	Atributos que pose segun la DB para cuando se edita, si existe por ese valor, selected
+	sino permite elegir 
+	=================================================================== -->
+	<label>Precio:</label>
+	<p>
+		<select (change)="callPrecio(precio.value)" #precio>
+			<option value="15" [attr.selected]="restaurante.precio < 20 ? 'selected' : null">Bajo</option>
+			<!-- 			
+			<option value="normal" [attr.selected]="restaurante.precio === 'normal' ? 'selected' : null">Normal</option>  
+			-->				
+			<option value="30" [attr.selected]="restaurante.precio > 20 ? 'selected' : null">Alto</option>
+		</select>
+	</p>
+
+	<label>Imagen:</label>
+	<p>
+
+		<input type="file" placeholder="Subir imagen..." name="avatar" 
+			(change)="fileChangeEvent($event)"
+			enctype="multipart/form-data" 
+			>
+<!-- 			(change)="fileEvent($event)" / -->			
+	
+		<input type="submit" value="Enviar solo imagen" (change)="fileJustChangeEvent($event)"/>
+
+	</p>
+
+	<input type="submit" value="{{titulo}}" [disabled]="!formRestaurante.form.valid" />
+	
+</form>

@@ -1,0 +1,40 @@
+<h1>{{titulo}}</h1>
+
+<ul id="restaurantes-list">
+	
+	<!-- clase .loading de cargando imagen -->
+	<li class="loading">
+		<img src="../../assets/images/loader.gif" />
+	</li>
+
+	<li *ngFor="#restaurante of restaurantes" class="restaurante-item">
+		<div class="image">
+			<img src="http://localhost:3030/api/favorito/imagen/{{restaurante.photo[0]}}" 
+				*ngIf="restaurante.photo[0] && restaurante.photo[0] !== 'null'" />
+		</div>
+		<div class="data">
+			<h4>{{restaurante.title}}</h4>
+			<p>{{restaurante.description}}</p>
+			
+			<!-- ==========================================			
+				uso de [routerLink] = "[A-La-ruta-definida-en-router, {parametro-en-ruta: valor}]"
+				en app.coponent 	{path: "/restaurante/:id", name: "Restaurante", component: RestaurantesDetailComponent},
+				
+			========================================== -->		
+ 			<p>
+				<a [routerLink]="['Restaurante', {id: restaurante._id}]" class="btn btn-ver">Ver</a>
+				<a [routerLink]="['EditarRestaurante', {id: restaurante._id}]" href="" class="btn btn-editar">Editar</a>
+				<a (click)="onBorrarConfirm(restaurante._id)" class="btn btn-eliminar">Eliminar</a>
+			</p>
+			
+			<div class="seguro" *ngIf="confirmado === restaurante._id">
+				<a (click)="onBorrarRestaurante(restaurante._id)" class="btn btn-eliminar">Eliminar</a>
+				<a (click)="onCancelarConfirm(restaurante._id)" class="btn btn-ver">Cancelar</a>
+			</div>
+
+		</div>
+		<div class="clearfix"></div>
+	</li>
+	
+	<div class="clearfix"></div>
+</ul>
